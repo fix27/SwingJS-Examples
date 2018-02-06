@@ -133,6 +133,7 @@ public class A2SEvent implements Runnable {
                              getOldEventKey(ke),
                              (ke.getModifiers() & ~InputEvent.BUTTON1_MASK));
 
+        case MouseEvent.MOUSE_CLICKED:
         case MouseEvent.MOUSE_PRESSED:
         case MouseEvent.MOUSE_RELEASED:
         case MouseEvent.MOUSE_MOVED:
@@ -233,7 +234,10 @@ public class A2SEvent implements Runnable {
 		if (top == null)
 			top = ((A2SContainer) ((JComponent) comp).getTopLevelAncestor());
 		if (top == null)
-			return comp;
+			if (comp instanceof A2SContainer)
+				top = (A2SContainer) comp;
+			else
+				return comp;
 		A2SListener listener = top.getA2SListener();
 		if (comp instanceof AbstractButton) {
 			if (!isListener(((AbstractButton) comp).getActionListeners(), listener))
@@ -242,8 +246,8 @@ public class A2SEvent implements Runnable {
 			if (!isListener(((TextField) comp).getActionListeners(), listener))
 				((TextField) comp).addActionListener((ActionListener) listener);
 		} else if (comp instanceof JComboBox) {
-			if (!isListener(((JComboBox<?>) comp).getActionListeners(), listener))
-				((JComboBox<?>) comp).addActionListener((ActionListener) listener);
+			if (!isListener(((JComboBox) comp).getActionListeners(), listener))
+				((JComboBox) comp).addActionListener((ActionListener) listener);
 		} else if (comp instanceof JScrollBar) {
 			if (!isListener(((JScrollBar) comp).getAdjustmentListeners(), listener))
 				((JScrollBar) comp).addAdjustmentListener((AdjustmentListener) listener);
