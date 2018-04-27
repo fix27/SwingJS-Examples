@@ -2450,7 +2450,7 @@ class AtomViewerFrame extends Frame implements ComponentListener,
 		if (viewX != null && viewX.contains(x, y)) {
 			selection = SEL_X;
 			checkSlice(e.getX(), e.getY());
-		} else if (viewPotential.contains(x, y)) {
+		} else if (viewPotential != null && viewPotential.contains(x, y)) {
 			selection = SEL_POTENTIAL;
 			// findStateByEnergy(y);
 		} else if (viewStates != null && viewStates.contains(x, y))
